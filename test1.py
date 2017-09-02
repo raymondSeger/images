@@ -1,21 +1,25 @@
 import cv2
 import numpy as np
 
-img = cv2.imread('bookpage.jpg')
+cap = cv2.VideoCapture(0)
 
-grayscaled = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
+while True:
+    _, frame = cap.read()
 
-retval, threshold = cv2.threshold(img, 12, 255, cv2.THRESH_BINARY)
+    hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 
-retval2, threshold2 = cv2.threshold(grayscaled, 10, 255, cv2.THRESH_BINARY)
+    lower_red = np.array([150,150,0])
+    upper_red = np.array([255,255,255])
 
-th = cv2.adaptiveThreshold(grayscaled, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 115, 1)
+    mask = cv2.inRange(hsv, lower_red, upper_red)
+    res = cv2.bitwise_and(frame, frame, mask=mask)
 
-cv2.imshow('original',img)
-cv2.imshow('threshold',threshold)
-cv2.imshow('threshold2',threshold2)
+    #cv2.imshow('frame', frame)
+    #cv2.imshow('mask', mask)
+    cv2.imshow('res', res)
 
-cv2.imshow('Adaptive threshold',th)
+    if (cv2.waitKey(5) & 0xFF) == 27:
+        break
 
-cv2.waitKey(0)
 cv2.destroyAllWindows()
+cap.release()
