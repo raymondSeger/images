@@ -1,26 +1,10 @@
-cv2=__import__('cv2')
-import matplotlib.pyplot as plt
-import numpy
+import cv2
+import numpy as np
 
-# start video capture
-cap = cv2.VideoCapture(0)
-fourcc = cv2.VideoWriter_fourcc(*'XVID') #codec to use
-out = cv2.VideoWriter('output.avi', fourcc, 20.0, (640,480)) #output and size and frame
+img = cv2.imread('watch.jpg', cv2.IMREAD_COLOR)
 
-while True:
-    # read it
-    ret, frame = cap.read()
-    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-    out.write(frame) #write data to the output file
+cv2.line(img, (0,0), (150, 150), (255,255,255), 15)
 
-    # show it
-    cv2.imshow('frame', frame)
-
-    cv2.imshow('gray', gray)
-
-    if cv2.waitKey(1) & 0xFF == ord('q'):
-        break
-
-cap.release()
-out.release() #release
+cv2.imshow('image', img)
+cv2.waitKey(0)
 cv2.destroyAllWindows()
