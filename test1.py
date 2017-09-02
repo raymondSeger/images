@@ -2,17 +2,14 @@ cv2=__import__('cv2')
 import matplotlib.pyplot as plt
 import numpy
 
-img = cv2.imread('watch.jpg', cv2.IMREAD_GRAYSCALE)
+# start video capture
+cap = cv2.VideoCapture(0)
 
-# show the picture
-#cv2.imshow('image', img)
-#cv2.waitKey(0)
-#cv2.destryoAllWindows()
+while True:
+    # read it
+    ret, frame = cap.read()
+    # show it
+    cv2.imshow('frame', frame)
 
-# show line
-#plt.imshow(img, cmap='gray', interpolation='bicubic')
-#plt.plot([50,100], [80,100], 'c', linewidth=5)
-#plt.show()
-
-#save the image
-cv2.imwrite('watchgray.png', img)
+cap.release()
+cv2.destroyAllWindows()
